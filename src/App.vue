@@ -1,8 +1,5 @@
 <template>
-  <div class="text-blue-400">
-    claro que yes
-  </div>
+  <main>
+    <router-view/>  
+  </main>
 </template>
-
-<style>
-</style>
