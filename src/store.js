@@ -25,6 +25,10 @@ const store = createStore({
     },
     backFromPlayers(state) {
       state.isStarted = false
+    },
+    reset(state) {
+      state.isStarted = false
+      state.players = []
     }
   },
   actions: {
