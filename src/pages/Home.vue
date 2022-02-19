@@ -15,16 +15,10 @@
   </main>  
 </template>
 
-<script>
+<script setup>
 import { useStore } from "vuex"
 
-export default {
-  setup() {
-    const store = useStore()
+const store = useStore()
 
-    return {
-      begin: () => store.commit('begin')
-    }
-  },
-}
+const begin = () => store.commit('begin')
 </script>

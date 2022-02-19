@@ -41,46 +41,35 @@
   </main>  
 </template>
 
-<script>
-import { ref } from '@vue/reactivity'
-import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
-import { computed } from '@vue/runtime-core'
+<script setup>
+  import { ref } from '@vue/reactivity'
+  import { useRouter } from 'vue-router'
+  import { useStore } from 'vuex'
+  import { computed } from '@vue/runtime-core'
 
-export default {
-  setup() {
-    const store = useStore()
-    const router = useRouter()
+  const store = useStore()
+  const router = useRouter()
 
-    const playerCount = 2
-    const players = ref(Array(playerCount).fill(''))
+  const playerCount = 2
+  const players = ref(Array(playerCount).fill(''))
 
-    const errors = ref(Array(playerCount).fill(true))
-    const checkError = (i) => {
-      errors.value[i] = players.value[i] === '' && true
-    }
-    const hasError = computed(() => {
-      return errors.value.filter((e) => e === true)
-    })
-    
-    const setPlayers = () => {
-      if(hasError.value.length) return
-      store.dispatch('setPlayers', players.value)
-      router.push('/game')
-    }
-    const goBack = () => {
-      store.commit('backFromPlayers')
-      router.push('/')
-    }
-    return {
-      goBack,
-      setPlayers,
-      players,
-      formattedIndex: (i) => i += 1,
-      errors,
-      checkError,
-      hasError
-    }
-  },
-}
+  const errors = ref(Array(playerCount).fill(true))
+  const checkError = (i) => {
+    errors.value[i] = players.value[i] === '' && true
+  }
+  const hasError = computed(() => {
+    return errors.value.filter((e) => e === true)
+  })
+
+  const setPlayers = () => {
+    if(hasError.value.length) return
+    store.dispatch('setPlayers', players.value)
+    router.push('/game')
+  }
+  const goBack = () => {
+    store.commit('backFromPlayers')
+    router.push('/')
+  }
+
+  const formattedIndex = (i) => i += 1
 </script>
