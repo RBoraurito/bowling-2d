@@ -7,7 +7,7 @@ import Congrats from '@/pages/Congrats.vue'
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/players', component: Players },
+  { path: '/new-game', component: Players },
   { path: '/game', component: Game },
   { path: '/congrats', component: Congrats },
 ]
