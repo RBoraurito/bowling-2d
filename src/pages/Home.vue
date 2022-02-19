@@ -7,9 +7,24 @@
       <router-link
         to="/new-game"
         class="py-4 px-20 text-white bg-gradient-to-r from-blue-400 to-blue-700 text-lg leading-none rounded-md"
+        @click="begin"
       >
         New Game
       </router-link>
     </div>
   </section>  
 </template>
+
+<script>
+import { useStore } from "vuex"
+
+export default {
+  setup() {
+    const store = useStore()
+
+    return {
+      begin: () => store.commit('begin')
+    }
+  },
+}
+</script>
