@@ -1,5 +1,5 @@
 <template>
-  <section class="flex justify-center items-center h-screen">
+  <main class="flex justify-center items-center h-screen">
     <div class="p-4 h-fit w-fit">
       <h1 class="text-3xl text-center font-bold uppercase mb-8">
         Bowling 2D
@@ -38,7 +38,7 @@
         Back
       </button>
     </div>
-  </section>  
+  </main>  
 </template>
 
 <script>

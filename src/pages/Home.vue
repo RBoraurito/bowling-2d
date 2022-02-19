@@ -1,5 +1,5 @@
 <template>
-  <section class="flex justify-center items-center h-screen">
+  <main class="flex justify-center items-center h-screen">
     <div class="w-fit">
       <h1 class="text-3xl text-center font-bold uppercase mb-8">
         Bowling 2D
@@ -12,7 +12,7 @@
         New Game
       </router-link>
     </div>
-  </section>  
+  </main>  
 </template>
 
 <script>
