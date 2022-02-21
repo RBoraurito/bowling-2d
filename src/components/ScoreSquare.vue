@@ -35,7 +35,11 @@ import { computed } from "@vue/runtime-core"
     const scores = props.scores
     return scores.map((score, index) => {
       if(scores.length === 3) {
-        if(score === 10) return 'x'
+        if(
+          (score === 10 && index === 0) ||
+          (score === 10 && index === 1 & scores[1] === 10) ||
+          (score === 10 && index === 2 & scores[2] === 10)
+        ) return 'x'
         if(index === 2 && scores[0] + scores[1] < 10) return ''
         if(index === 1 && scores[0] + scores[1] === 10 && scores[0] !== 10) return '/'
         if(

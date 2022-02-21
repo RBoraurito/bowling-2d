@@ -30,9 +30,11 @@
 
 <script setup>
 import { ref } from "@vue/reactivity";
-import { computed } from "@vue/runtime-core";
+import { computed, watch } from "@vue/runtime-core";
+import { useStore } from "vuex";
 
 const emits = defineEmits(['sendPins'])
+const store = useStore()
 const field = ref(null)
 const fieldWidth = computed(() => field.value.clientWidth)
 const showStrike = ref(false)
@@ -81,6 +83,10 @@ const getPine = computed(() =>{
 })
 
 const isMoving = ref(false)
+
+watch(() => store.state.hasToReset, (val) => {
+  if(val) reset()
+})
 
 defineExpose({
   throwBowl,

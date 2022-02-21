@@ -58,27 +58,52 @@ const store = createStore({
     reset(state) {
       state.isStarted = false
       state.players = []
+      state.round = 0
+      state.isOver = false
+    },
+    restart(state) {
+      state.round = 0
+      state.isOver = false
+      state.players.forEach(player => {
+        player.rounds = player.rounds.map((round, index) => {
+          if(index === 9) {
+            return {
+              first: null,
+              second: null,
+              third: null,
+              isFinished: false,
+              total: null,
+              order: index + 1
+            }
+          }
+          return {
+            order: index + 1,
+            first: null,
+            second: null,
+            pendingThrows: [],
+            isFinished: false,
+            total: null
+          }
+        })
+      })
     },
     setPoints(state, points) {
       const round = state.players[0].rounds[state.round]
       if(round.first === null) {
         round.first = points
         round.pendingThrows = Array(points === 10 ? 2 : 0).fill(null)
-        console.log('first', state.players[0].name, points)
         round.isFinished = points == 10 && state.round !== 9 ? true : false
       } else if(round.second === null) {
         round.second = points
         round.pendingThrows = Array(points + round.first === 10 ? 1 : 0).fill(null)
         round.isFinished = (round.hasOwnProperty('third') && round.first + round.second >= 10) ? false : true
         if(round.first + round.second < 10 && state.round === 9) round.thrid = 0
-        console.log('second', state.players[0].name, points)
       } else if(
         round.hasOwnProperty('third') &&
         round.third === null
       ) {
         round.third = points
         round.isFinished = true
-        console.log('third', state.players[0].name, points)
       }
     },
     setPendingThrow(state) {
@@ -90,9 +115,13 @@ const store = createStore({
         }
         if(round.pendingThrows.length === 2) {
           if(round.pendingThrows[0] === null) round.pendingThrows[0] = rounds[index + 1].first
-          if(round.pendingThrows[1] === null) {
+          if(round.pendingThrows[1] === null && index !== 8) {
             round.pendingThrows[1] = rounds[index + 1].first !== 10 ? rounds[index + 1].second : rounds[index + 2].first
           }
+          if(round.pendingThrows[1] === null && index === 8) {
+            round.pendingThrows[1] = rounds[index + 1].second
+          }
+          
         }
       })
     },
@@ -133,8 +162,8 @@ const store = createStore({
       state.players.shift()
     },
     resetField(state) {
-      state.shouldReset = true
-      setTimeout(() => state.shouldReset = false, 100)
+      state.hasToReset = true
+      state.hasToReset = false
     }
   },
   actions: {
@@ -158,12 +187,12 @@ const store = createStore({
     checkNextTurn({state, commit, getters}) {
       const player = state.players[0]
       if(player.rounds[state.round].isFinished) {
+        debugger
         commit('nextTurn', player)
         commit('resetField')
       }
       if(getters.isRoundOver) {
         commit('nextRound')
-        return
       }
       if(state.round > 9) state.isOver = true
     },
