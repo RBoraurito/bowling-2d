@@ -10,7 +10,7 @@
       {{ props.round }}
     </div>
     <div
-      v-for="(score, index) in props.scores"
+      v-for="(score, index) in formatScore"
       :key="index"
       class="border-gray-700 flex items-center justify-center col-span-1"
       :class="index === 0 ? 'border-0' : 'border-l border-b'"
@@ -27,7 +27,37 @@
 </template>
 
 <script setup>
+import { computed } from "@vue/runtime-core"
+
   const props = defineProps(['round', 'scores', 'total'])
+
+  const formatScore = computed(() => {
+    const scores = props.scores
+    return scores.map((score, index) => {
+      if(scores.length === 3) {
+        if(score === 10) return 'x'
+        if(index === 2 && scores[0] + scores[1] < 10) return ''
+        if(index === 1 && scores[0] + scores[1] === 10 && scores[0] !== 10) return '/'
+        if(
+          index === 2 &&
+          scores[1] + scores[2] === 10 &&
+          scores[1] !== 10 &&
+          scores[0] === 10
+        ) return '/'
+      }
+      if (score === 0) {
+        return '-'
+      }
+      if(score === 10 && index === 0) return ''
+      if(index === 1 && scores[0] === 10) {
+        return 'X'
+      }
+      if(index === 1 && score + scores[0] === 10) {
+        return '/'
+      }
+      return score
+    })
+  })
 </script>
 
 <style>

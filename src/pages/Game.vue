@@ -71,7 +71,7 @@ const handlePins = (pins) => {
   store.dispatch('throwBowl', pins)
 }
 
-watch(store.state.isOver, (val, oldVal) => {
+watch(() => store.state.isOver, (val, oldVal) => {
   if(val) {
     router.push('/congrats')
   }
