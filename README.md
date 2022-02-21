@@ -5,3 +5,21 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 ## Recommended IDE Setup
 
 - [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+
+## How to run 
+
+### Requirements
+
+- Node version: 14.16.1
+- Yarn
+
+### Setup
+
+- Run 'yarn'
+- Run 'yarn dev'
+- Then is serve on localhost:3000
+
+
+## Git convention
+
+https://gitmoji.dev/
