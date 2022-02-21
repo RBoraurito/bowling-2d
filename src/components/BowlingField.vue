@@ -1,6 +1,6 @@
 <template>
   <section class="ml-52 bg-green-800 p-8 relative" ref="field">
-    <div class="pines" v-show="!showStrike">
+    <div class="pins" v-show="!showStrike">
       <div class="flex flex-col space-y-2">
         <span :class="[getPine(10) && 'active']" class="pine"/>
         <span :class="[getPine(9) && 'active']" class="pine"/>
@@ -32,52 +32,52 @@
 import { ref } from "@vue/reactivity";
 import { computed } from "@vue/runtime-core";
 
-const emits = defineEmits(['sendPines'])
+const emits = defineEmits(['sendPins'])
 const field = ref(null)
 const fieldWidth = computed(() => field.value.clientWidth)
 const showStrike = ref(false)
 
 const initialValue = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-const pines = ref(initialValue)
+const pins = ref(initialValue)
 const firstThrow = ref(null)
 
 const genRandom = (until = 10) => Math.floor(Math.random() * until)
 
 const throwBowl = () => {
-  const pinesDown = genRandom(pines.value.length + 1)
+  const pinsDown = genRandom(pins.value.length + 1)
   isMoving.value = true
   setTimeout(() => {
-    for (let index = 0; index < pinesDown; index++) {
-      const pine = genRandom(pines.value.length)
-      pines.value = pines.value.filter((p, index) => {
+    for (let index = 0; index < pinsDown; index++) {
+      const pine = genRandom(pins.value.length)
+      pins.value = pins.value.filter((p, index) => {
         return index != pine
       })
     }
-    if(pinesDown === 10 && firstThrow.value === null) {
+    if(pinsDown === 10 && firstThrow.value === null) {
       showStrike.value = true
       isMoving.value = false
       setTimeout(() => {
         showStrike.value = false
-        emits('sendPines', pinesDown)
+        emits('sendPins', pinsDown)
         reset()
       }, 2000)
     } else {
       isMoving.value = false
-      emits('sendPines', pinesDown)
+      emits('sendPins', pinsDown)
       setTimeout(() => {
-        if(firstThrow.value) return reset()
-        firstThrow.value = pinesDown
+        if(firstThrow.value !== null) return reset()
+        firstThrow.value = pinsDown
       }, 2000)
     }
   }, 4000)
 }
 const reset = () => {
-  pines.value = initialValue
+  pins.value = initialValue
   firstThrow.value = null
 }
 
 const getPine = computed(() =>{
-  return (i) => pines.value.find(p => p === i)
+  return (i) => pins.value.find(p => p === i)
 })
 
 const isMoving = ref(false)
@@ -90,7 +90,7 @@ defineExpose({
 </script>
 
 <style>
-  .pines {
+  .pins {
     @apply relative flex items-center space-x-2 w-fit;
   }
 
